@@ -1,0 +1,55 @@
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Тест Perl API</title>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+    
+      <div class="col">
+        <p>Узнать стоимость</p>
+          <form method="post" action="/cgi-bin/index.pl">
+            <div class="mb-3">
+              <input type="text" name="method" value="getCost" hidden>
+              <label for="price" class="form-label">Цена</label>
+              <input type="text" id="price" class="form-control" name="price">
+            </div>
+              <button type="submit" class="btn btn-primary">Отправить</button>
+          </form>
+      </div>
+    
+      <div class="col">
+        <p>Сделать заказ</p>
+        <form method="post" action="/cgi-bin/index.pl">
+          <div class="mb-3">
+            <input type='text' name='method' value='setOrder' hidden>
+            <label for="price" class="form-label">Цена</label>
+            <input type="text" id="price" class="form-control" name="price">
+            <label for="cost" class="form-label">Стоимость</label>
+            <input type="text" id="cost" class="form-control" name="cost">
+            <label for="name" class="form-label">Название</label>
+            <input type="text" id="name" class="form-control" name="name">
+          </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+      </div>
+    
+      <div class="col">
+        <p>Проверить заказ</p>
+        <form method="post" action="/cgi-bin/index.pl">
+          <div class="mb-3">
+            <input type='text' name='method' value='getOrder' hidden>
+            <label for="id" class="form-label">ID заказа</label>
+            <input type="text" id="id" class="form-control" name="id">
+          </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</body>
+</html>
