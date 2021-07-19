@@ -16,6 +16,9 @@ sub new {
     my $class = shift;
     my $DB = DBI->connect("DBI:mysql:$__DB_NAME","$__DB_USER","$__DB_PASS");
 
+    $DB->{AutoCommit} = 0;
+    $DB->{RaiseError} = 1;
+
     if(!$DB){
         __dbError();
     }else{
@@ -30,13 +33,16 @@ sub set_order {
     my $cost = shift;
     my $name = shift;
 
-    my $request = $DB->prepare("INSERT INTO orders (price, cost, name) VALUES ('$price','$cost','$name')") or __db_error();
-
+    my $request = $DB->prepare("INSERT INTO orders (price, cost, name) VALUES (?, ?, ?)") or __db_error();
+    $request->bind_param(1, $price);
+    $request->bind_param(2, $cost);
+    $request->bind_param(3, $name);
     $request->execute() or __db_error();
 
-    $request = $DB->prepare("SELECT MAX(id) FROM orders") or __db_error();
-    
+    $request = $DB->prepare("SELECT LAST_INSERT_ID()");
     $request->execute() or __db_error();
+
+    $DB->commit() or __db_error();
 
     my $id = $request->fetchrow();
 
@@ -48,7 +54,9 @@ sub get_order {
     my $DB = $self->{DB};
     my $id = shift;
 
-    my $request = $DB->prepare("SELECT * FROM orders WHERE id='$id'") or __db_error();
+    my $request = $DB->prepare("SELECT * FROM orders WHERE id=?") or __db_error();
+
+    $request->bind_param(1, $id);
     
     $request->execute() or __db_error();
 
