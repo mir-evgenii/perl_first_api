@@ -3,31 +3,31 @@ package View;
 use warnings;
 use strict;
 
-sub viewGetCost {
+sub get_cost {
     my $cost = shift;
 
     print "Content-type: text/html\n\n";
     print 'Cost: '.$cost;
 }
 
-sub viewSetOrder {
+sub set_order {
     my $id = shift;
 
     print "Content-type: text/html\n\n";
     print 'Order ID: '.$id;
 }
 
-sub viewGetOrder {
-    my @order = @_;
+sub get_order {
+    my $order = shift;
 
     print "Content-type: text/html\n\n";
-    print 'Order ID: '.$order[0]."<br>";
-    print 'Price: '.$order[1]."<br>";
-    print 'Cost: '.$order[2]."<br>";
-    print 'Name: '.$order[3]."<br>";
+    print 'ID: '.%$order{'id'}."<br>";
+    print 'Price: '.%$order{'price'}."<br>";
+    print 'Cost: '.%$order{'cost'}."<br>";
+    print 'Name: '.%$order{'name'}."<br>";
 }
 
-sub viewError {
+sub error {
     my $error = shift;
 
     print "Content-type: text/html\n\n";

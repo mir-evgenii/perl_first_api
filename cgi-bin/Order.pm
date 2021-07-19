@@ -2,47 +2,50 @@ package Order;
 
 use warnings;
 use strict;
-use File::Basename;
+use File::Basename qw(dirname);
 use lib dirname(__FILE__);
 use Model;
+use Validation;
 use View;
 
 my $__COMMISSION = 1.05;
 
-sub getCost {
+sub get_cost {
     my $price = shift;
 
-    View::viewError("Price must be a number and more than 1.") if $price < 1;
+    Validation::number($price);
 
     my $cost = $price * $__COMMISSION;
     return $cost;
 }
 
-sub setOrder {
+sub set_order {
     my $price = shift;
     my $cost = shift;
     my $name = shift;
 
-    my $trueCost = getCost($price);
+    Validation::number($price);
+    Validation::number($cost);
+    Validation::string($name);
 
-    View::viewError("Price must be a number and more than 1.") if $price < 1;
-    View::viewError("Not correct cost!") if $cost != $trueCost;
+    my $true_cost = get_cost($price);
+    View::error("Not correct cost!") if $cost != $true_cost;
 
     my $DB = Model->new();
-    my $id = $DB->setOrder($price, $cost, $name);
+    my $id = $DB->set_order($price, $cost, $name);
 
     return $id;
 }
 
-sub getOrder {
+sub get_order {
     my $id = shift;
 
-    View::viewError("Id must be a number and more than 0.") if $id < 1;
+    Validation::id($id);
 
     my $DB = Model->new();
-    my @order = $DB->getOrder($id);
+    my %order = $DB->get_order($id);
 
-    return @order;
+    return %order;
 }
 
 1;

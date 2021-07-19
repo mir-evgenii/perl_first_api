@@ -2,7 +2,7 @@ package Controller;
 
 use warnings;
 use strict;
-use File::Basename;
+use File::Basename qw(dirname);
 use lib dirname(__FILE__);
 use Order;
 use View;
@@ -20,45 +20,45 @@ sub run {
     my $response;
 
     $response = 0;
-    $response = $self->getCost() if $method eq 'getCost';
-    $response = $self->setOrder() if $method eq 'setOrder';
-    $response = $self->getOrder() if $method eq 'getOrder';
+    $response = $self->get_cost() if $method eq 'getCost';
+    $response = $self->set_order() if $method eq 'setOrder';
+    $response = $self->get_order() if $method eq 'getOrder';
 
-    View::viewError("Unknown method.") if $response == 0;
+    View::error("Unknown method.") if $response == 0;
 
     return $response;
 }
 
-sub getCost {
+sub get_cost {
     my $self = shift;
     my $request = $self->{request};
     my $price = $request->param('price');
 
-    my $cost = Order::getCost($price);
+    my $cost = Order::get_cost($price);
 
-    View::viewGetCost($cost);
+    View::get_cost($cost);
 }
 
-sub setOrder {
+sub set_order {
     my $self = shift;
     my $request = $self->{request};
     my $price = $request->param('price');
     my $cost = $request->param('cost');
     my $name = $request->param('name');
 
-    my $id = Order::setOrder($price, $cost, $name);
+    my $id = Order::set_order($price, $cost, $name);
 
-    View::viewSetOrder($id);
+    View::set_order($id);
 }
 
-sub getOrder {
+sub get_order {
     my $self = shift;
     my $request = $self->{request};
     my $id = $request->param('id');
 
-    my @order = Order::getOrder($id);
+    my %order = Order::get_order($id);
 
-    View::viewGetOrder(@order);
+    View::get_order(\%order);
 }
 
 1;

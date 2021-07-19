@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use File::Basename;
+use File::Basename qw(dirname);
 use lib dirname(__FILE__);
 use CGI;
 use Controller;
